@@ -4,56 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-      /* This CSS loads instantly */
       body {
+        opacity: 0;
+        transition: opacity 1.8s ease-in-out; /* Slightly longer for extra smoothness */
         background-color: black;
         margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
         overflow: hidden;
       }
-      #loader {
-        color: white;
-        font-family: sans-serif;
-        letter-spacing: 3px;
-        font-size: 12px;
-        text-transform: uppercase;
-        animation: pulse 2s infinite;
-      }
-      @keyframes pulse {
-        0% { opacity: 0.3; }
-        50% { opacity: 1; }
-        100% { opacity: 0.3; }
-      }
-      canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0;
-        transition: opacity 2s ease;
-      }
-      .show-boat { opacity: 1 !important; }
+      html, body { height: 100%; }
+      canvas { display: block; }
+      .fade-in { opacity: 1; }
     </style>
   </head>
   <body>
-
-    <div id="loader">A440 Story Loading...</div>
-
     <canvas id="canvas3d"></canvas>
-
     <script type="module">
       import { Application } from './runtime.js';
       
       const canvas = document.getElementById('canvas3d');
-      const loader = document.getElementById('loader');
       const app = new Application(canvas);
       
+      // We trigger the fade-in ONLY after Spline reports the scene is loaded
       app.load('./scene.splinecode').then(() => {
-          // Boat is ready!
-          loader.style.display = 'none';
-          canvas.classList.add('show-boat');
+          // Extra 100ms buffer to ensure the first frame is painted
+          setTimeout(() => {
+            document.body.classList.add('fade-in');
+          }, 100);
       });
     </script>
   </body>
