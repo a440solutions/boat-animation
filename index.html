@@ -4,43 +4,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
+      /* This CSS loads instantly */
       body {
         background-color: black;
         margin: 0;
-        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        font-family: sans-serif;
+        overflow: hidden;
       }
-
-      /* The boat canvas starts hidden */
-      #canvas3d {
+      #loader {
+        color: white;
+        font-family: sans-serif;
+        letter-spacing: 3px;
+        font-size: 12px;
+        text-transform: uppercase;
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0% { opacity: 0.3; }
+        50% { opacity: 1; }
+        100% { opacity: 0.3; }
+      }
+      canvas {
         position: absolute;
         top: 0;
         left: 0;
         opacity: 0;
-        transition: opacity 1.5s ease-in-out;
+        transition: opacity 2s ease;
       }
-
-      /* Style for your loading text */
-      #loader {
-        color: white;
-        font-size: 14px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        opacity: 1;
-        transition: opacity 0.5s ease-out;
-        z-index: 10;
-      }
-
-      .hidden { opacity: 0 !important; pointer-events: none; }
-      .visible { opacity: 1 !important; }
+      .show-boat { opacity: 1 !important; }
     </style>
   </head>
   <body>
-    <div id="loader">Loading Story...</div>
+
+    <div id="loader">A440 Story Loading...</div>
 
     <canvas id="canvas3d"></canvas>
 
@@ -48,17 +47,13 @@
       import { Application } from './runtime.js';
       
       const canvas = document.getElementById('canvas3d');
-      const loaderText = document.getElementById('loader');
+      const loader = document.getElementById('loader');
       const app = new Application(canvas);
       
       app.load('./scene.splinecode').then(() => {
-          // 1. Hide the "Loading" text
-          loaderText.classList.add('hidden');
-          
-          // 2. Fade in the boat
-          setTimeout(() => {
-            canvas.classList.add('visible');
-          }, 200);
+          // Boat is ready!
+          loader.style.display = 'none';
+          canvas.classList.add('show-boat');
       });
     </script>
   </body>
