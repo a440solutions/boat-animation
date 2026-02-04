@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       body {
-        margin: 0;
-				overflow: hidden;
+        opacity: 0;
+		  transition: opacity 1.5s ease-in-out; /* Adjust 1.5s for a slower or faster fade */
+		  background-color: black; /* Matches your scene background */
+		  margin: 0;
+		  overflow: hidden;
       }
       html, body {
         height: 100%;
@@ -14,6 +17,9 @@
       canvas {
         display: block;
       }
+		.fade-in {
+    opacity: 1;
+  }
     </style>
   </head>
   <body>
@@ -23,6 +29,12 @@
       const canvas = document.getElementById('canvas3d');
       const app = new Application(canvas);
       app.load('./scene.splinecode');
+		window.onload = function() {
+    // Small delay to ensure the 3D engine has finished its first frame
+    setTimeout(() => {
+      document.body.classList.add('fade-in');
+    }, 500); 
+  };
     </script>
   </body>
 </html>
